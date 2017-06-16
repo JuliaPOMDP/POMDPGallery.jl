@@ -33,9 +33,10 @@
     gen_readme()
     ```
 
-6. Run the following commands in Julia with YOUR_NEW_MODEL replaced by your model name.
+6. Test and commit the changes by running the following commands in Julia with YOUR_NEW_MODEL replaced by your model name.
 
     ```julia
+    Pkg.test("POMDPGallery")
     cd(Pkg.dir("POMDPGallery", "problems", "YOUR_NEW_MODEL"))
     ;git add description.txt script.jl url.txt out.gif
     ;git commit -a -m "Added YOUR_NEW_MODEL"
