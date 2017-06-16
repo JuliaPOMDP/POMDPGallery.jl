@@ -12,16 +12,17 @@ using QMDP
 using Reel
 using ProgressMeter
 
-pomdp = gen_lasertag(rng=MersenneTwister(1))
+rng = MersenneTwister(7)
+pomdp = gen_lasertag(rng=rng)
 policy = solve(QMDPSolver(), pomdp)
 filter = SIRParticleFilter(pomdp, 10000)
-recorder = HistoryRecorder(max_steps=50, rng=MersenneTwister(2))
-
-hist = simulate(recorder, pomdp, policy, filter)
 
 frames = Frames(MIME("image/png"), fps=2)
-it = eachstep(hist, "a,r,sp,o,bp")
-@showprogress "Creating gif..." for arspobp in it
-    push!(frames, LaserTagVis(pomdp, arspobp...))
+
+print("Simulating and generating LaserTag gif")
+for step in stepthrough(pomdp, policy, filter, "a,r,sp,o,bp", rng=rng)
+    push!(frames, LaserTagVis(pomdp, step...))
+    print('.')
 end
+println(" Done.")
 write("out.gif", frames)
