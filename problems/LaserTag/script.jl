@@ -1,5 +1,6 @@
 try Pkg.clone("https://github.com/zsunberg/LaserTag.jl.git") end
 Pkg.build("LaserTag")
+Pkg.add("Reel")
 
 using POMDPs
 POMDPs.add("QMDP")
@@ -10,7 +11,6 @@ using ParticleFilters
 using QMDP
 
 using Reel
-using ProgressMeter
 
 rng = MersenneTwister(7)
 pomdp = gen_lasertag(rng=rng)
