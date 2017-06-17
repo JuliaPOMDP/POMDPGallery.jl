@@ -8,16 +8,17 @@
 
 ## More detailed instructions
 
+Throughout all instructions, replace YOUR_NEW_MODEL with the name of your model, e.g. LaserTag
+
 1. Run the following commands in Julia to prepare to add a new model
     ```julia
     Pkg.add("POMDPGallery")
     Pkg.checkout("POMDPGallery")
     cd(Pkg.dir("POMDPGallery"))
-    ;git checkout -b newmodel
+    ;git checkout -b YOUR_NEW_MODEL_branch
+    ;mkdir problems/YOUR_NEW_MODEL
     ```
     You have now checked out a branch for adding your new model. See the [Code Changes section of the Julia documentation](https://docs.julialang.org/en/stable/manual/packages/#code-changes) for more info.
-
-2. In the `problems` directory, create a new directory with the name of your problem.
 
 3. In that directory, create the files `description.txt`, `script.jl`, and `url.txt`. See [problems/LaserTag](problems/LaserTag) for an example.
     - `url.txt` should be the URL for a git repository (or other website) for the model.
@@ -33,7 +34,7 @@
     gen_readme()
     ```
 
-6. Test and commit the changes by running the following commands in Julia with YOUR_NEW_MODEL replaced by your model name.
+6. Test and commit the changes by running the following commands in Julia:
 
     ```julia
     Pkg.test("POMDPGallery")
