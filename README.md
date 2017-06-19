@@ -43,6 +43,48 @@ write("out.gif", frames)
 ```
 
 
+## [LightDarkPOMDPs](https://github.com/zsunberg/LightDarkPOMDPs.jl)
+
+A 2D LightDark POMDP similar to the one at http://www.roboticsproceedings.org/rss06/p37.pdf . There is a version with a quadratic cost function, and one with a small target.
+
+
+![LightDarkPOMDPs](problems/LightDarkPOMDPs/out.gif)
+
+```julia
+try Pkg.clone("https://github.com/zsunberg/LightDarkPOMDPs.jl") end
+Pkg.build("LightDarkPOMDPs")
+using POMDPs
+using LightDarkPOMDPs
+
+Pkg.add("Reel");            using Reel
+Pkg.add("POMDPToolbox");    using POMDPToolbox
+Pkg.add("ParticleFilters"); using ParticleFilters
+Pkg.add("Plots");           using Plots
+Pkg.add("PyPlot")
+
+pomdp = LightDark2D()
+filter = SIRParticleFilter(pomdp, 10000, rng=MersenneTwister(5))
+policy = FunctionPolicy(b -> -0.3*mean(b))
+
+sim = HistoryRecorder(max_steps=30, rng=MersenneTwister(7))
+hist = simulate(sim, pomdp, policy, filter)
+
+pyplot()
+frames = Frames(MIME("image/png"), fps=2)
+for i in 1:length(hist)
+    v = view(hist, 1:i)
+    plot(pomdp, xlim=(-3, 10), ylim=(-4,8), aspect_ratio=:equal)
+    plot!(v)
+    b = belief_hist(v)[end]
+    plt = plot!(b)
+    push!(frames, plt);
+    print(".")
+end
+println()
+write("out.gif", frames);
+```
+
+
 ## [VDPTag](https://github.com/zsunberg/VDPTag.jl)
 
 Van Der Pol Tag. The agent tries to catch a target that moves according to the [Van Der Pol equations](https://en.wikipedia.org/wiki/Van_der_Pol_oscillator#Two-dimensional_form). An observation with a noisy bearing to the target can be obtained for a cost, and the agent always moves one unit, but may choose any direction.
@@ -52,6 +94,7 @@ Van Der Pol Tag. The agent tries to catch a target that moves according to the [
 
 ```julia
 try Pkg.clone("https://github.com/zsunberg/VDPTag.jl") end
+using POMDPs
 Pkg.build("VDPTag");        using VDPTag
 Pkg.add("Reel");            using Reel
 Pkg.add("Plots");           using Plots
@@ -59,13 +102,23 @@ Pkg.add("GR");
 Pkg.add("ParticleFilters"); using ParticleFilters
 Pkg.add("ProgressMeter");   using ProgressMeter
 Pkg.add("POMDPToolbox");    using POMDPToolbox
+Pkg.add("Distributions");   using Distributions
 
 pomdp = VDPTagPOMDP()
 filter = SIRParticleFilter(pomdp, 1000, rng=MersenneTwister(100))
-policy = ManageUncertainty(pomdp, 0.01)
 
-hr = HistoryRecorder(max_steps=100, rng=MersenneTwister(1), show_progress=true)
-hist = simulate(hr, pomdp, policy, filter)
+hist = sim(pomdp, updater=filter, max_steps=100, rng=MersenneTwister(1)) do b
+    # Policy: move towards predicted target position; if uncertainty > 0.01, take measurement
+    agent = first(particles(b)).agent
+    target_particles = Array(Float64, 2, n_particles(b))
+    for (i, s) in enumerate(particles(b))
+        target_particles[:,i] = s.target
+    end
+    normal_dist = fit(MvNormal, target_particles)
+    angle = action(ToNextML(mdp(pomdp)), TagState(agent, mean(normal_dist)))
+    a = TagAction(sqrt(det(cov(normal_dist))) > 0.01, angle)
+    return a
+end
 
 gr()
 frames = Frames(MIME("image/png"), fps=2)
