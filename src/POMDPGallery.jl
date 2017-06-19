@@ -36,7 +36,7 @@ function gen_readme(output=Pkg.dir("POMDPGallery", "README.md"))
     return true
 end
 
-function run_scripts(allow_failure=String[])
+function run_scripts(;allow_failure=String[])
     problemsdir = Pkg.dir("POMDPGallery", "problems")
     for problem in readdir(problemsdir)
         problemdir = joinpath(problemsdir, problem)
