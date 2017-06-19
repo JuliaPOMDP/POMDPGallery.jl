@@ -2,6 +2,7 @@
 
 ## Overview
 
+1. Make sure you start from the master branch.
 1. Create a directory in `problems` and put `description.txt`, `script.jl`, `url.txt`, and `out.gif` in it.
 2. Generate `README.md` by running `POMDPGallery.gen_readme()`.
 3. Submit a pull request with all of the new and updated files.
