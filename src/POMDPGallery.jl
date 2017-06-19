@@ -36,14 +36,23 @@ function gen_readme(output=Pkg.dir("POMDPGallery", "README.md"))
     return true
 end
 
-function run_scripts()
+function run_scripts(allow_failure=String[])
     problemsdir = Pkg.dir("POMDPGallery", "problems")
     for problem in readdir(problemsdir)
         problemdir = joinpath(problemsdir, problem)
         script = joinpath(problemdir, "script.jl")
         # TODO: run in parallel
         runs = """cd("$problemdir"); include("$script")"""
-        run(`julia -e $runs`)
+        try
+            run(`julia -e $runs`)
+        catch ex
+            if problem in allow_failure
+                warn("Ignored error while testing $problem.")
+                showerror(STDOUT, ex)
+            else
+                rethrow(ex)
+            end
+        end
     end
     return true
 end
