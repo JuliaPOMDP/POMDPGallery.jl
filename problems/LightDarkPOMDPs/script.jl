@@ -1,4 +1,3 @@
-Pkg.add("PyPlot");
 try Pkg.clone("https://github.com/zsunberg/LightDarkPOMDPs.jl") end
 Pkg.build("LightDarkPOMDPs")
 using POMDPs
@@ -16,7 +15,7 @@ policy = FunctionPolicy(b -> -0.3*mean(b))
 sim = HistoryRecorder(max_steps=30, rng=MersenneTwister(7))
 hist = simulate(sim, pomdp, policy, filter)
 
-pyplot()
+# pyplot() # uncommenting this will give prettier results, but requires PyPlot
 frames = Frames(MIME("image/png"), fps=2)
 for i in 1:length(hist)
     v = view(hist, 1:i)
