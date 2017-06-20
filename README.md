@@ -1,6 +1,6 @@
 # POMDPGallery
 
-A gallery of models written for [POMDPs.jl](https://github.com/JuliaPOMDP/POMDPs.jl) with visualizations.
+A gallery of models written for [POMDPs.jl](https://github.com/JuliaPOMDP/POMDPs.jl) with visualizations. You should be able to copy and paste the code below each visualization to run it on your local machine.
 
 For instructions on how to add new models, see [INSTRUCTIONS.md](INSTRUCTIONS.md).
 
@@ -60,7 +60,6 @@ Pkg.add("Reel");            using Reel
 Pkg.add("POMDPToolbox");    using POMDPToolbox
 Pkg.add("ParticleFilters"); using ParticleFilters
 Pkg.add("Plots");           using Plots
-Pkg.add("PyPlot")
 
 pomdp = LightDark2D()
 filter = SIRParticleFilter(pomdp, 10000, rng=MersenneTwister(5))
@@ -69,7 +68,7 @@ policy = FunctionPolicy(b -> -0.3*mean(b))
 sim = HistoryRecorder(max_steps=30, rng=MersenneTwister(7))
 hist = simulate(sim, pomdp, policy, filter)
 
-pyplot()
+# pyplot() # uncommenting this will give prettier results, but requires PyPlot
 frames = Frames(MIME("image/png"), fps=2)
 for i in 1:length(hist)
     v = view(hist, 1:i)
@@ -108,7 +107,7 @@ pomdp = VDPTagPOMDP()
 filter = SIRParticleFilter(pomdp, 1000, rng=MersenneTwister(100))
 
 hist = sim(pomdp, updater=filter, max_steps=100, rng=MersenneTwister(1)) do b
-    # Policy: move towards predicted target position; if uncertainty > 0.01, take measurement
+    # Policy: move towards predicted target position; if uncertainty area > 0.01, take measurement
     agent = first(particles(b)).agent
     target_particles = Array(Float64, 2, n_particles(b))
     for (i, s) in enumerate(particles(b))
