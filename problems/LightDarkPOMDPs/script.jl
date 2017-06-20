@@ -1,3 +1,4 @@
+Pkg.add("PyPlot");
 try Pkg.clone("https://github.com/zsunberg/LightDarkPOMDPs.jl") end
 Pkg.build("LightDarkPOMDPs")
 using POMDPs
@@ -6,7 +7,6 @@ using LightDarkPOMDPs
 Pkg.add("Reel");            using Reel
 Pkg.add("POMDPToolbox");    using POMDPToolbox
 Pkg.add("ParticleFilters"); using ParticleFilters
-Pkg.add("PyPlot");
 Pkg.add("Plots");           using Plots
 
 pomdp = LightDark2D()
