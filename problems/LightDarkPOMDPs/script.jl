@@ -7,7 +7,7 @@ Pkg.add("Reel");            using Reel
 Pkg.add("POMDPToolbox");    using POMDPToolbox
 Pkg.add("ParticleFilters"); using ParticleFilters
 Pkg.add("Plots");           using Plots
-Pkg.add("GR");
+Pkg.add("PyPlot");
 
 pomdp = LightDark2D()
 filter = SIRParticleFilter(pomdp, 10000, rng=MersenneTwister(5))
@@ -16,7 +16,7 @@ policy = FunctionPolicy(b -> -0.3*mean(b))
 sim = HistoryRecorder(max_steps=30, rng=MersenneTwister(7))
 hist = simulate(sim, pomdp, policy, filter)
 
-gr(); # pyplot() # uncommenting this will give prettier results, but requires PyPlot
+pyplot()
 frames = Frames(MIME("image/png"), fps=2)
 for i in 1:length(hist)
     v = view(hist, 1:i)
