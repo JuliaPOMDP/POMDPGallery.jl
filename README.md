@@ -60,7 +60,7 @@ Pkg.add("Reel");            using Reel
 Pkg.add("POMDPToolbox");    using POMDPToolbox
 Pkg.add("ParticleFilters"); using ParticleFilters
 Pkg.add("Plots");           using Plots
-Pkg.add("PyPlot");
+Pkg.add("PyPlot");          using PyPlot # to force building
 
 pomdp = LightDark2D()
 filter = SIRParticleFilter(pomdp, 10000, rng=MersenneTwister(5))
@@ -87,7 +87,7 @@ write("out.gif", frames);
 
 ## [Powseeker](https://github.com/zsunberg/Powseeker.jl)
 
-A backcountry skier wants to get the best possible run in. She has a map, but she can only get a noisy estimate of the gradient as she travels or take a costly break from travelling. The reward at each step is exponentially related to her speed. So far we haven't come up with a solution method that can reliably beat heuristics on this one.
+A backcountry skier wants to get the best possible run in. She has a map, but she can only get a noisy estimate of the gradient as she travels or take a costly break from travelling. The reward at each step is exponentially related to her speed. Most solution methods do not perform well on this problem.
 
 
 ![Powseeker](problems/Powseeker/out.gif)
