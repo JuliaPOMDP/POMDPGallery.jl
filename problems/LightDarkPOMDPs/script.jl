@@ -7,7 +7,7 @@ Pkg.add("Reel");            using Reel
 Pkg.add("POMDPToolbox");    using POMDPToolbox
 Pkg.add("ParticleFilters"); using ParticleFilters
 Pkg.add("Plots");           using Plots
-Pkg.add("PyPlot");          using PyPlot # to force building
+Pkg.add("PyPlot");
 
 pomdp = LightDark2D()
 filter = SIRParticleFilter(pomdp, 10000, rng=MersenneTwister(5))
