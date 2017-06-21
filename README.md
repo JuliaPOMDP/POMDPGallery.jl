@@ -60,7 +60,7 @@ Pkg.add("Reel");            using Reel
 Pkg.add("POMDPToolbox");    using POMDPToolbox
 Pkg.add("ParticleFilters"); using ParticleFilters
 Pkg.add("Plots");           using Plots
-Pkg.add("GR");
+Pkg.add("PyPlot");
 
 pomdp = LightDark2D()
 filter = SIRParticleFilter(pomdp, 10000, rng=MersenneTwister(5))
@@ -69,7 +69,7 @@ policy = FunctionPolicy(b -> -0.3*mean(b))
 sim = HistoryRecorder(max_steps=30, rng=MersenneTwister(7))
 hist = simulate(sim, pomdp, policy, filter)
 
-gr(); # pyplot() # uncommenting this will give prettier results, but requires PyPlot
+pyplot()
 frames = Frames(MIME("image/png"), fps=2)
 for i in 1:length(hist)
     v = view(hist, 1:i)
@@ -77,6 +77,45 @@ for i in 1:length(hist)
     plot!(v)
     b = belief_hist(v)[end]
     plt = plot!(b)
+    push!(frames, plt);
+    print(".")
+end
+println()
+write("out.gif", frames);
+```
+
+
+## [Powseeker](https://github.com/zsunberg/Powseeker.jl)
+
+A backcountry skier wants to get the best possible run in. She has a map, but she can only get a noisy estimate of the gradient as she travels or take a costly break from travelling. The reward at each step is exponentially related to her speed. So far we haven't come up with a solution method that can reliably beat heuristics on this one.
+
+
+![Powseeker](problems/Powseeker/out.gif)
+
+```julia
+try Pkg.clone("https://github.com/zsunberg/Powseeker.jl") end
+using POMDPs
+using Powseeker
+
+Pkg.add("Reel");            using Reel
+Pkg.add("POMDPToolbox");    using POMDPToolbox
+Pkg.add("ParticleFilters"); using ParticleFilters
+Pkg.add("Plots");           using Plots
+Pkg.add("GR");              
+
+pomdp = PowseekerPOMDP()
+filter = SIRParticleFilter(pomdp, 10_000, rng=MersenneTwister(7))
+policy = RandomlyCheckGPS(Topout(pomdp, 0.1), 0.2, MersenneTwister(12))
+
+sim = HistoryRecorder(rng=MersenneTwister(94), max_steps=60, show_progress=true)
+hist = simulate(sim, pomdp, policy, filter)
+
+gr()
+frames = Frames(MIME("image/png"), fps=2)
+for i in 1:length(hist)
+    v = view(hist, 1:i)
+    plot(pomdp, xlim=(-4000,4000), ylim=(-4000,4000), aspect_ratio=:equal)
+    plt = plot!(v)
     push!(frames, plt);
     print(".")
 end
@@ -116,8 +155,7 @@ hist = sim(pomdp, updater=filter, max_steps=100, rng=MersenneTwister(1)) do b
     end
     normal_dist = fit(MvNormal, target_particles)
     angle = action(ToNextML(mdp(pomdp)), TagState(agent, mean(normal_dist)))
-    a = TagAction(sqrt(det(cov(normal_dist))) > 0.01, angle)
-    return a
+    return TagAction(sqrt(det(cov(normal_dist))) > 0.01, angle)
 end
 
 gr()

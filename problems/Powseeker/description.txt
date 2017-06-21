@@ -1,0 +1,1 @@
+A backcountry skier wants to get the best possible run in. She has a map, but she can only get a noisy estimate of the gradient as she travels or take a costly break from travelling. The reward at each step is exponentially related to her speed. So far we haven't come up with a solution method that can reliably beat heuristics on this one.

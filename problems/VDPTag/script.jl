@@ -21,8 +21,7 @@ hist = sim(pomdp, updater=filter, max_steps=100, rng=MersenneTwister(1)) do b
     end
     normal_dist = fit(MvNormal, target_particles)
     angle = action(ToNextML(mdp(pomdp)), TagState(agent, mean(normal_dist)))
-    a = TagAction(sqrt(det(cov(normal_dist))) > 0.01, angle)
-    return a
+    return TagAction(sqrt(det(cov(normal_dist))) > 0.01, angle)
 end
 
 gr()
