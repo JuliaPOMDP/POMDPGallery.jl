@@ -151,7 +151,7 @@ filter = SIRParticleFilter(pomdp, 1000, rng=MersenneTwister(100))
 hist = sim(pomdp, updater=filter, max_steps=100, rng=MersenneTwister(1)) do b
     # Policy: move towards predicted target position; if uncertainty area > 0.01, take measurement
     agent = first(particles(b)).agent
-    target_particles = Array(Float64, 2, n_particles(b))
+    target_particles = Array{Float64}(2, n_particles(b))
     for (i, s) in enumerate(particles(b))
         target_particles[:,i] = s.target
     end

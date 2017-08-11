@@ -33,7 +33,7 @@ function gen_readme(output=Pkg.dir("POMDPGallery", "README.md"))
             """)
     end
     file = open(output, "w")
-    println(file, takebuf_string(readme))
+    println(file, String(take!(readme)))
     close(file)
     return true
 end
