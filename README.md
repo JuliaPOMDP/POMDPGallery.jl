@@ -6,6 +6,40 @@ A gallery of models written for [POMDPs.jl](https://github.com/JuliaPOMDP/POMDPs
 
 For instructions on how to add new models, see [INSTRUCTIONS.md](INSTRUCTIONS.md).
 
+## [ContinuumWorld](https://github.com/zsunberg/ContinuumWorld.jl)
+
+A Continuous 2D domain for demonstrating function approximation value iteration.
+
+
+![ContinuumWorld](problems/ContinuumWorld/out.gif)
+
+```julia
+try Pkg.clone("https://github.com/zsunberg/ContinuumWorld.jl") end
+
+using ContinuumWorld
+using POMDPs
+using GridInterpolations
+Pkg.add("Reel");    using Reel
+
+w = CWorld()
+
+nx = 30; ny = 30
+grid = RectangleGrid(linspace(w.xlim..., nx), linspace(w.ylim..., ny))
+solver = CWorldSolver(max_iters=50, m=50, grid=grid)
+policy = solve(solver, w)
+
+frames = Frames(MIME("image/png"), fps=4)
+for i in 1:length(solver.value_hist)
+    v = solver.value_hist[i]
+    push!(frames, CWorldVis(w, f=s->evaluate(v,s), g=solver.grid, title="Value iteration step $i"))
+end
+for i in 1:10
+    push!(frames, CWorldVis(w, f=s->action_ind(policy, s), g=solver.grid, title="Policy"))
+end
+write("out.gif", frames)
+```
+
+
 ## [LaserTag](https://github.com/zsunberg/LaserTag.jl)
 
 LaserTag problem from Somani, A., Ye, N., Hsu, D., & Lee, W. (2013). DESPOT : Online POMDP Planning with Regularization. Advances in Neural Information Processing Systems. Retrieved from http://papers.nips.cc/paper/5189-despot-online-pomdp-planning-with-regularization. Versions with continuous and discrete observations.
