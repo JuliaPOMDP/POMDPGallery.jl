@@ -1,1 +1,1 @@
-A Continuous 2D domain for demonstrating function approximation value iteration.
+A Continuous 2D MDP domain for demonstrating function approximation value iteration.
