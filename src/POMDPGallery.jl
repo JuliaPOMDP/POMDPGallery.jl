@@ -78,7 +78,7 @@ function run_scripts(;allow_failure=String[])
         end
         println("\n\n")
     end
-    return all(passed)
+    return true
 end
 
 end # module
