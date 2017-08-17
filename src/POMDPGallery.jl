@@ -40,7 +40,9 @@ end
 
 function run_scripts(;allow_failure=String[])
     problemsdir = Pkg.dir("POMDPGallery", "problems")
-    for problem in readdir(problemsdir)
+    problems = readdir(problemsdir)
+    passed = similar(problems, Bool)
+    for (i, problem) in enumerate(problems)
         problemdir = joinpath(problemsdir, problem)
         script = joinpath(problemdir, "script.jl")
         # TODO: run in parallel
@@ -51,12 +53,32 @@ function run_scripts(;allow_failure=String[])
             if problem in allow_failure
                 warn("Ignored error while testing $problem.")
                 showerror(STDOUT, ex)
+                passed[i] = false
+                continue
             else
                 rethrow(ex)
             end
         end
+        passed[i] = true
     end
-    return true
+    if !isempty(allow_failure)
+        println("""\n\n\n
+                =====================
+                POMDPGallery Summary:
+                =====================
+
+                """)
+        for i in 1:length(problems)
+            print(problems[i]*": ")
+            if passed[i]
+                println("passed")
+            else
+                println("FAILED")
+            end
+        end
+        println("\n\n")
+    end
+    return all(passed)
 end
 
 end # module
