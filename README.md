@@ -8,7 +8,7 @@ For instructions on how to add new models, see [INSTRUCTIONS.md](INSTRUCTIONS.md
 
 ## [ContinuumWorld](https://github.com/zsunberg/ContinuumWorld.jl)
 
-A Continuous 2D domain for demonstrating function approximation value iteration.
+A Continuous 2D MDP domain for demonstrating function approximation value iteration.
 
 
 ![ContinuumWorld](problems/ContinuumWorld/out.gif)
@@ -28,6 +28,7 @@ grid = RectangleGrid(linspace(w.xlim..., nx), linspace(w.ylim..., ny))
 solver = CWorldSolver(max_iters=50, m=50, grid=grid)
 policy = solve(solver, w)
 
+run(`ls -R /tmp`)
 frames = Frames(MIME("image/png"), fps=4)
 for i in 1:length(solver.value_hist)
     v = solver.value_hist[i]
@@ -36,6 +37,7 @@ end
 for i in 1:10
     push!(frames, CWorldVis(w, f=s->action_ind(policy, s), g=solver.grid, title="Policy"))
 end
+run(`ls -R /tmp`)
 write("out.gif", frames)
 ```
 
