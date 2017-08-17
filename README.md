@@ -25,7 +25,7 @@ w = CWorld()
 
 nx = 30; ny = 30
 grid = RectangleGrid(linspace(w.xlim..., nx), linspace(w.ylim..., ny))
-solver = CWorldSolver(max_iters=50, m=50, grid=grid)
+solver = CWorldSolver(max_iters=30, m=50, grid=grid)
 policy = solve(solver, w)
 
 frames = Frames(MIME("image/png"), fps=4)
