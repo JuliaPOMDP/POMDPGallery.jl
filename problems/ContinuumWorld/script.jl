@@ -4,6 +4,7 @@ using ContinuumWorld
 using POMDPs
 using GridInterpolations
 Pkg.add("Reel");    using Reel
+using Plots;        pyplot()
 
 w = CWorld()
 
