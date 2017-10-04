@@ -2,6 +2,7 @@ using POMDPGallery
 using Base.Test
 using Plots
 
+#=
 try
     pyplot()
 catch ex
@@ -10,8 +11,9 @@ catch ex
     Pkg.build("PyCall")
     Pkg.build("PyPlot")
 end
+=#
 
-@test run_scripts(allow_failure=["ContinuumWorld"])
+@test run_scripts()
 @test gen_readme("/tmp/test_README.md")
 
 @test readstring("/tmp/test_README.md") == readstring(Pkg.dir("POMDPGallery", "README.md"))
