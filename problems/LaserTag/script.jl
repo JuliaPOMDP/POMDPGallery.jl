@@ -13,7 +13,7 @@ using QMDP
 using Reel
 
 rng = MersenneTwister(7)
-pomdp = gen_lasertag(rng=rng)
+pomdp = gen_lasertag(rng=rng, robot_position_known=true)
 policy = solve(QMDPSolver(), pomdp)
 filter = SIRParticleFilter(pomdp, 10000)
 
