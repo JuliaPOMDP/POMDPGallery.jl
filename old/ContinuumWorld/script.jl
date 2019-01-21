@@ -1,9 +1,10 @@
-try Pkg.clone("https://github.com/zsunberg/ContinuumWorld.jl") end
+using Pkg
+Pkg.add("https://github.com/zsunberg/ContinuumWorld.jl")
 
 using ContinuumWorld
 using POMDPs
 using GridInterpolations
-Pkg.add("Reel");    using Reel
+using Reel
 using Plots;        pyplot()
 
 w = CWorld()

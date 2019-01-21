@@ -13,13 +13,15 @@ Throughout all instructions, replace YOUR_NEW_MODEL with the name of your model,
 
 1. Run the following commands in Julia to prepare to add a new model
     ```julia
-    Pkg.add("POMDPGallery")
-    Pkg.checkout("POMDPGallery")
-    cd(Pkg.dir("POMDPGallery"))
+    import Pkg
+    Pkg.add("https://github.com/JuliaPOMDP/POMDPGallery.jl")
+    Pkg.dev("https://github.com/JuliaPOMDP/POMDPGallery.jl")
+    using POMDPGallery
+    cd(joinpath(dirname(pathof(POMDPGallery)), "..")
     ;git checkout -b YOUR_NEW_MODEL_branch
     ;mkdir problems/YOUR_NEW_MODEL
     ```
-    You have now checked out a branch for adding your new model. See the [Code Changes section of the Julia documentation](https://docs.julialang.org/en/stable/manual/packages/#code-changes) for more info.
+    You have now checked out a branch for adding your new model.
 
 3. In that directory, create the files `description.txt`, `script.jl`, and `url.txt`. See [problems/LaserTag](problems/LaserTag) for an example.
     - `url.txt` should be the URL for a git repository (or other website) for the model.

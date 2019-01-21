@@ -1,8 +1,10 @@
 module POMDPGallery
 
+using Pkg
+
 export gen_readme, run_scripts
 
-function gen_readme(output=Pkg.dir("POMDPGallery", "README.md"))
+function gen_readme(output=joinpath(dirname(@__FILE__()), "..", "README.md"))
     readme = IOBuffer()
     print(readme, """
         # POMDPGallery
@@ -15,7 +17,7 @@ function gen_readme(output=Pkg.dir("POMDPGallery", "README.md"))
 
         """)
 
-    problemsdir = Pkg.dir("POMDPGallery", "problems")
+    problemsdir = joinpath(dirname(@__FILE__()), "..", "problems")
     for problem in readdir(problemsdir)
         problemdir = joinpath(problemsdir, problem)
         url = strip(readstring(joinpath(problemdir, "url.txt")))
@@ -39,7 +41,7 @@ function gen_readme(output=Pkg.dir("POMDPGallery", "README.md"))
 end
 
 function run_scripts(;allow_failure=String[])
-    problemsdir = Pkg.dir("POMDPGallery", "problems")
+    problemsdir = joinpath(dirname(@__FILE__()), "..", "problems")
     problems = readdir(problemsdir)
     passed = similar(problems, Bool)
     for (i, problem) in enumerate(problems)
