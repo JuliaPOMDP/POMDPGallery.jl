@@ -1,6 +1,6 @@
 using POMDPGallery
 using Test
-using Plots
+# using Plots
 
 # try
 #     pyplot()
@@ -11,7 +11,7 @@ using Plots
 #     Pkg.build("PyPlot")
 # end
 
-@test run_scripts(allow_failure=["LaserTag"]) # allow pyplot ones to fail :(
+@test run_scripts(allow_failure=["LaserTag"])
 @test gen_readme("/tmp/test_README.md")
 
-@test readstring("/tmp/test_README.md") == readstring(Pkg.dir("POMDPGallery", "README.md"))
+@test read("/tmp/test_README.md", String) == read(joinpath(dirname(pathof(POMDPGallery)), "..", "README.md"), String)

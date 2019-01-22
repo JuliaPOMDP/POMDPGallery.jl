@@ -1,7 +1,5 @@
 module POMDPGallery
 
-using Pkg
-
 export gen_readme, run_scripts
 
 function gen_readme(output=joinpath(dirname(@__FILE__()), "..", "README.md"))
@@ -20,8 +18,8 @@ function gen_readme(output=joinpath(dirname(@__FILE__()), "..", "README.md"))
     problemsdir = joinpath(dirname(@__FILE__()), "..", "problems")
     for problem in readdir(problemsdir)
         problemdir = joinpath(problemsdir, problem)
-        url = strip(readstring(joinpath(problemdir, "url.txt")))
-        desc = readstring(joinpath(problemdir, "description.txt"))
+        url = strip(read(joinpath(problemdir, "url.txt"), String))
+        desc = read(joinpath(problemdir, "description.txt"), String)
 
         println(readme, "## [$problem]($url)\n")
         println(readme, desc*"\n")
@@ -29,7 +27,7 @@ function gen_readme(output=joinpath(dirname(@__FILE__()), "..", "README.md"))
         println(readme, "![$problem](problems/$problem/out.gif)\n")
         println(readme, """
             ```julia
-            $(strip(readstring(joinpath(problemdir, "script.jl"))))
+            $(strip(read(joinpath(problemdir, "script.jl"), String)))
             ```
 
             """)
@@ -53,8 +51,8 @@ function run_scripts(;allow_failure=String[])
             run(`julia --project=$problemdir -e $runs`)
         catch ex
             if problem in allow_failure
-                warn("Ignored error while testing $problem.")
-                showerror(STDOUT, ex)
+                @warn "Ignored error while testing $problem."
+                showerror(stdout, ex)
                 passed[i] = false
                 continue
             else
