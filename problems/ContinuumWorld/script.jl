@@ -1,4 +1,6 @@
-try Pkg.clone("https://github.com/zsunberg/ContinuumWorld.jl") end
+# XXX remove this if the test works with the manifest
+# using Pkg
+# Pkg.add(PackageSpec(url="https://github.com/zsunberg/ContinuumWorld.jl"))
 
 using ContinuumWorld
 using POMDPs
@@ -9,7 +11,8 @@ using Plots;        pyplot()
 w = CWorld()
 
 nx = 30; ny = 30
-grid = RectangleGrid(linspace(w.xlim..., nx), linspace(w.ylim..., ny))
+grid = RectangleGrid(range(first(w.xlim), stop=last(w.xlim), length=nx), 
+                     range(first(w.ylim), stop=last(w.ylim), length=ny))
 solver = CWorldSolver(max_iters=30, m=50, grid=grid)
 policy = solve(solver, w)
 

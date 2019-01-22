@@ -50,7 +50,7 @@ function run_scripts(;allow_failure=String[])
         # TODO: run in parallel
         runs = """cd("$problemdir"); include("$script")"""
         try
-            run(`julia -e $runs`)
+            run(`julia --project=$problemdir -e $runs`)
         catch ex
             if problem in allow_failure
                 warn("Ignored error while testing $problem.")
