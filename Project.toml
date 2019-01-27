@@ -2,3 +2,9 @@ name = "POMDPGallery"
 uuid = "81714780-1039-4e80-9421-5f7a84ff6f34"
 repo = "https://github.com/JuliaPOMDP/POMDPGallery.jl"
 version = "0.2.0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
