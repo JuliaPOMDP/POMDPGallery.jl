@@ -12,6 +12,7 @@ addons:
     packages:
       - libgtk-3-dev
       - libavcodec-extra-54
+      - python3-matplotlib
 script:     
   - git clone https://github.com/JuliaRegistries/General  $(julia -e 'import Pkg; println(joinpath(Pkg.depots1(), "registries", "General"))')
   - git clone https://github.com/JuliaPOMDP/Registry  $(julia -e 'import Pkg; println(joinpath(Pkg.depots1(), "registries", "JuliaPOMDP"))')

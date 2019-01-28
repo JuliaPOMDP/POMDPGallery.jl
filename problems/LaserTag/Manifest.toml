@@ -352,7 +352,9 @@ version = "1.0.3"
 
 [[LaserTag]]
 deps = ["AutoHashEquals", "Distributions", "IterTools", "POMDPModelTools", "POMDPSimulators", "POMDPs", "Parameters", "ParticleFilters", "Printf", "Random", "SpecialFunctions", "StaticArrays", "StatsBase", "TikzPictures"]
-git-tree-sha1 = "3b5f6ac810ef2fa9dbe69cafa0bd7059e45a5c3d"
+git-tree-sha1 = "eb4ddd3cc626363c68a5c68b58f7c2201e4fb7c4"
+repo-rev = "master"
+repo-url = "https://github.com/JuliaPOMDP/LaserTag.jl"
 uuid = "041f53e1-e4f8-54ec-814d-e9e995aa38d4"
 version = "0.1.1"
 
@@ -631,9 +633,9 @@ version = "0.27.0"
 
 [[StatsFuns]]
 deps = ["Rmath", "SpecialFunctions", "Test"]
-git-tree-sha1 = "d14bb7b03defd2deaa5675646f6783089e0556f0"
+git-tree-sha1 = "7e7658a6adf28c91db1290c84483e07cc59ea3a4"
 uuid = "4c63d2b9-4356-54db-8cca-17b64c39e42c"
-version = "0.7.0"
+version = "0.7.1"
 
 [[SuiteSparse]]
 deps = ["Libdl", "LinearAlgebra", "SparseArrays"]
