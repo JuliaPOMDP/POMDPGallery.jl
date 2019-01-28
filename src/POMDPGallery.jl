@@ -39,16 +39,17 @@ function gen_readme(output=joinpath(dirname(@__FILE__()), "..", "README.md"))
 end
 
 function run_scripts(;allow_failure=String[])
-    problemsdir = joinpath(dirname(@__FILE__()), "..", "problems")
+    pkgdir = joinpath(dirname(@__FILE__()), "..")
+    problemsdir = joinpath(pkgdir, "problems")
     problems = readdir(problemsdir)
     passed = similar(problems, Bool)
     for (i, problem) in enumerate(problems)
         problemdir = joinpath(problemsdir, problem)
         script = joinpath(problemdir, "script.jl")
         # TODO: run in parallel
-        runs = """cd("$problemdir"); include("$script")"""
+        runs = """cd("$problemdir"); using Pkg; Pkg.activate("."); Pkg.instantiate(); include("$script")"""
         try
-            run(`julia --project=$problemdir -e $runs`)
+            run(`julia --project=$pkgdir -e $runs`)
         catch ex
             if problem in allow_failure
                 @warn "Ignored error while testing $problem."
