@@ -9,6 +9,7 @@ git:
 sudo: required
 addons:
   apt:
+    update: true
     packages:
       - libgtk-3-dev
       - libavcodec-extra-54
