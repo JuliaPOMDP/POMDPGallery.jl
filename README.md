@@ -47,6 +47,39 @@ write("out.gif", frames)
 ```
 
 
+## [EscapeRoomba](https://github.com/sisl/AA228FinalProject)
+
+The optional final project for AA228 at Stanford in Fall 2018. A Roomba equipped with a LIDAR or a bump sensor (shown) needs to try to find the safe exit (green) without accidentally falling down the stairs (red).
+
+
+![EscapeRoomba](problems/EscapeRoomba/out.gif)
+
+```julia
+using AA228FinalProject
+using POMDPGifs
+using Random
+using ParticleFilters
+using POMDPPolicies
+using ARDESPOT
+using POMDPs
+
+rng = MersenneTwister(1)
+speed = 2.0
+as = vec([RoombaAct(v, om) for v in (0.0, speed), om in (-1.0, 0.0, 1.0)])
+m = RoombaPOMDP(sensor=Bumper(), mdp=RoombaMDP(config=1, aspace=as, contact_pen=-0.1));
+
+default = FunctionPolicy(x->[speed, 0.0])
+bounds = IndependentBounds(DefaultPolicyLB(default), 10.0, check_terminal=true)
+solver = DESPOTSolver(K=20, T_max=1.0, bounds=bounds, rng=rng)
+planner = solve(solver, m)
+
+spf = SimpleParticleFilter(m, BumperResampler(5000))
+filter = RoombaParticleFilter(spf, 2.0, 0.5);
+
+@show makegif(m, planner, filter, filename="out.gif", rng=rng, max_steps=100, show_progress=true)
+```
+
+
 ## [LaserTag](https://github.com/JuliaPOMDP/LaserTag.jl)
 
 LaserTag problem from Somani, A., Ye, N., Hsu, D., & Lee, W. (2013). DESPOT : Online POMDP Planning with Regularization. Advances in Neural Information Processing Systems. Retrieved from http://papers.nips.cc/paper/5189-despot-online-pomdp-planning-with-regularization. Versions with continuous and discrete observations.
