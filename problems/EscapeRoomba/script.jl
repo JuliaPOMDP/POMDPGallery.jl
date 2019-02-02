@@ -16,7 +16,7 @@ bounds = IndependentBounds(DefaultPolicyLB(default), 10.0, check_terminal=true)
 solver = DESPOTSolver(K=20, T_max=1.0, bounds=bounds, rng=rng)
 planner = solve(solver, m)
 
-spf = SimpleParticleFilter(m, BumperResampler(5000))
+spf = SimpleParticleFilter(m, BumperResampler(5000), rng=rng)
 filter = RoombaParticleFilter(spf, 2.0, 0.5);
 
-@show makegif(m, planner, filter, filename="out.gif", rng=rng, max_steps=100, show_progress=true)
+makegif(m, planner, filter, filename="out.gif", rng=rng, max_steps=100, show_progress=true)

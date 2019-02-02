@@ -1,7 +1,3 @@
-# XXX remove this if the test works with the manifest
-# using Pkg
-# Pkg.add(PackageSpec(url="https://github.com/zsunberg/ContinuumWorld.jl"))
-
 using ContinuumWorld
 using POMDPs
 using GridInterpolations

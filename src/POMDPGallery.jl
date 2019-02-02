@@ -13,6 +13,7 @@ function gen_readme(output=joinpath(dirname(@__FILE__()), "..", "README.md"))
 
         For instructions on how to add new models, see [INSTRUCTIONS.md](INSTRUCTIONS.md).
 
+        For the older version of this package with julia-0.6 models, see [this branch](https://github.com/JuliaPOMDP/POMDPGallery.jl/tree/julia-0.6).
         """)
 
     problemsdir = joinpath(dirname(@__FILE__()), "..", "problems")
@@ -38,48 +39,62 @@ function gen_readme(output=joinpath(dirname(@__FILE__()), "..", "README.md"))
     return true
 end
 
-function run_scripts(;allow_failure=String[])
+function run_scripts(;allow_failure=String[], showerr=true)
     pkgdir = joinpath(dirname(@__FILE__()), "..")
     problemsdir = joinpath(pkgdir, "problems")
     problems = readdir(problemsdir)
-    passed = similar(problems, Bool)
-    for (i, problem) in enumerate(problems)
-        problemdir = joinpath(problemsdir, problem)
-        script = joinpath(problemdir, "script.jl")
-        # TODO: run in parallel
-        runs = """cd("$problemdir"); using Pkg; Pkg.activate("."); Pkg.instantiate(); include("$script")"""
-        try
-            run(`julia --project=$pkgdir -e $runs`)
-        catch ex
-            if problem in allow_failure
-                @warn "Ignored error while testing $problem."
-                showerror(stdout, ex)
-                passed[i] = false
-                continue
-            else
-                rethrow(ex)
-            end
-        end
-        passed[i] = true
-    end
-    if !isempty(allow_failure)
-        println("""\n\n\n
-                =====================
-                POMDPGallery Summary:
-                =====================
+    procs = similar(problems, Base.Process)
 
-                """)
-        for i in 1:length(problems)
-            print(problems[i]*": ")
-            if passed[i]
-                println("passed")
-            else
-                println("FAILED")
+    @sync for (i, problem) in enumerate(problems)
+        @async begin
+            problemdir = joinpath(problemsdir, problem)
+            script = joinpath(problemdir, "script.jl")
+            runs = """cd("$problemdir"); using Pkg; Pkg.activate("."); Pkg.instantiate(); include("$script")"""
+            outfile = joinpath(problemdir, "stdout.log")
+            errfile = joinpath(problemdir, "stderr.log")
+            println("Launching $problem.")
+            pipe = pipeline(`julia --project=$pkgdir -e $runs`, stdout=outfile, stderr=errfile)
+            procs[i] = run(pipe, wait=false)
+            wait(procs[i])
+            println("Finished $problem: $(success(procs[i]) ? "passed" : "FAILED")")
+            if !success(procs[i])
+                println("""
+                        ====================
+                        stderr for $problem:
+                        ====================
+                        """)
+                println(read(outfile, String))
+                println("""
+                        ====================
+                        stdout for $problem:
+                        ====================
+                        """)
+                println(read(errfile, String))
             end
         end
-        println("\n\n")
     end
-    return true
+
+    pass = true
+    println("""\n\n\n
+            =====================
+            POMDPGallery Summary:
+            =====================
+
+            """)
+    for i in 1:length(problems)
+        print(problems[i]*": ")
+        if success(procs[i])
+            println("passed")
+        else
+            println("FAILED")
+            if !(problems[i] in allow_failure)
+                pass = false
+            end
+        end
+    end
+    println("\n\n")
+
+    return pass
 end
 
 end # module

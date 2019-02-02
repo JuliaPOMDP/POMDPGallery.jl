@@ -6,6 +6,7 @@ A gallery of models written for [POMDPs.jl](https://github.com/JuliaPOMDP/POMDPs
 
 For instructions on how to add new models, see [INSTRUCTIONS.md](INSTRUCTIONS.md).
 
+For the older version of this package with julia-0.6 models, see [this branch](https://github.com/JuliaPOMDP/POMDPGallery.jl/tree/julia-0.6).
 ## [ContinuumWorld](https://github.com/zsunberg/ContinuumWorld.jl)
 
 A Continuous 2D MDP domain for demonstrating function approximation value iteration.
@@ -14,10 +15,6 @@ A Continuous 2D MDP domain for demonstrating function approximation value iterat
 ![ContinuumWorld](problems/ContinuumWorld/out.gif)
 
 ```julia
-# XXX remove this if the test works with the manifest
-# using Pkg
-# Pkg.add(PackageSpec(url="https://github.com/zsunberg/ContinuumWorld.jl"))
-
 using ContinuumWorld
 using POMDPs
 using GridInterpolations
@@ -73,10 +70,10 @@ bounds = IndependentBounds(DefaultPolicyLB(default), 10.0, check_terminal=true)
 solver = DESPOTSolver(K=20, T_max=1.0, bounds=bounds, rng=rng)
 planner = solve(solver, m)
 
-spf = SimpleParticleFilter(m, BumperResampler(5000))
+spf = SimpleParticleFilter(m, BumperResampler(5000), rng=rng)
 filter = RoombaParticleFilter(spf, 2.0, 0.5);
 
-@show makegif(m, planner, filter, filename="out.gif", rng=rng, max_steps=100, show_progress=true)
+makegif(m, planner, filter, filename="out.gif", rng=rng, max_steps=100, show_progress=true)
 ```
 
 
