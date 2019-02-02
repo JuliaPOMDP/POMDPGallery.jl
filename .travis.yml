@@ -1,5 +1,6 @@
 ## Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
+dist: bionic
 julia:
   - 1.0
 notifications:
@@ -9,6 +10,7 @@ git:
 sudo: required
 addons:
   apt:
+    update: true
     packages:
       - libgtk-3-dev
       - libavcodec-extra-54
