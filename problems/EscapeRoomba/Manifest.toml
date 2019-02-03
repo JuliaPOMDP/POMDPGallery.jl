@@ -2,7 +2,7 @@
 
 [[AA228FinalProject]]
 deps = ["AEMS", "ARDESPOT", "Base64", "BasicPOMCP", "BeliefUpdaters", "Cairo", "Distributions", "FIB", "Graphics", "Gtk", "LinearAlgebra", "MCTS", "MCVI", "NearestNeighbors", "POMCPOW", "POMDPModelTools", "POMDPPolicies", "POMDPSimulators", "POMDPSolve", "POMDPs", "Parameters", "ParticleFilters", "QMDP", "Random", "Reel", "SARSOP", "StaticArrays", "Statistics"]
-git-tree-sha1 = "2bb05d54e3f86829b56580531bf2a0397be9c0d1"
+git-tree-sha1 = "12f3a75abda2242d9a4f6cdafa9815a1158be104"
 repo-rev = "master"
 repo-url = "https://github.com/sisl/AA228FinalProject"
 uuid = "fe2df5ea-4d44-4e5a-a895-9dbc87b19b37"
@@ -16,7 +16,7 @@ version = "0.1.0"
 
 [[ARDESPOT]]
 deps = ["BasicPOMCP", "BeliefUpdaters", "CPUTime", "D3Trees", "POMDPModelTools", "POMDPs", "Parameters", "ParticleFilters", "Printf", "Random"]
-git-tree-sha1 = "31398a984f2b63742ed4010d903bf79e7ab2d628"
+git-tree-sha1 = "10c1d40935f6b2973ff54bd0f1d6cd0308b189f5"
 repo-rev = "master"
 repo-url = "https://github.com/JuliaPOMDP/ARDESPOT.jl"
 uuid = "d96c9ae4-3372-47d5-8a88-316ae77be8cf"
