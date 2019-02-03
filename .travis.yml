@@ -1,13 +1,25 @@
 ## Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
-dist: trusty
+dist: bionic
 julia:
-  - 0.6
+  - 1.0
 notifications:
   email: false
 git:
   depth: 99999999
 sudo: required
+addons:
+  apt:
+    update: true
+    packages:
+      - libgtk-3-dev
+      - libavcodec-extra-54
+      - python3-matplotlib
+script:     
+  - git clone https://github.com/JuliaRegistries/General  $(julia -e 'import Pkg; println(joinpath(Pkg.depots1(), "registries", "General"))')
+  - git clone https://github.com/JuliaPOMDP/Registry  $(julia -e 'import Pkg; println(joinpath(Pkg.depots1(), "registries", "JuliaPOMDP"))')
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - travis_wait 30 julia --project --color=yes --check-bounds=yes -e 'import Pkg; Pkg.build("POMDPGallery"); Pkg.test("POMDPGallery", coverage=true)'
 
 ## uncomment the following lines to allow failures on nightly julia
 ## (tests will run but not make your overall status red)

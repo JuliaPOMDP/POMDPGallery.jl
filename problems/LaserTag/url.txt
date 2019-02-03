@@ -1,1 +1,1 @@
-https://github.com/zsunberg/LaserTag.jl
+https://github.com/JuliaPOMDP/LaserTag.jl

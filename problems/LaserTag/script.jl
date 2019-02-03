@@ -1,28 +1,13 @@
-try Pkg.clone("https://github.com/zsunberg/LaserTag.jl.git") end
-Pkg.build("LaserTag")
-Pkg.add("Reel")
-
-using POMDPs
-POMDPs.add("QMDP")
-
 using LaserTag
-using POMDPToolbox
-using ParticleFilters
+using POMDPGifs
 using QMDP
-
-using Reel
+using Random
+using ParticleFilters
 
 rng = MersenneTwister(7)
-pomdp = gen_lasertag(rng=rng, robot_position_known=true)
-policy = solve(QMDPSolver(), pomdp)
-filter = SIRParticleFilter(pomdp, 10000)
 
-frames = Frames(MIME("image/png"), fps=2)
+m = gen_lasertag(rng=rng, robot_position_known=true)
+policy = solve(QMDPSolver(verbose=true), m)
+filter = SIRParticleFilter(m, 10000, rng=rng)
 
-print("Simulating and generating LaserTag gif")
-for step in stepthrough(pomdp, policy, filter, "a,r,sp,o,bp", rng=rng)
-    push!(frames, LaserTagVis(pomdp, step...))
-    print('.')
-end
-println(" Done.")
-write("out.gif", frames)
+@show makegif(m, policy, filter, filename="out.gif", rng=rng)

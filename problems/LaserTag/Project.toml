@@ -1,0 +1,6 @@
+[deps]
+LaserTag = "041f53e1-e4f8-54ec-814d-e9e995aa38d4"
+POMDPGifs = "7f35509c-0cb9-11e9-0708-2928828cdbb7"
+ParticleFilters = "c8b314e2-9260-5cf8-ae76-3be7461ca6d0"
+QMDP = "3aa3ecc9-5a5d-57c8-8188-3e47bd8068d2"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
