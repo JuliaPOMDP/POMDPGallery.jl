@@ -2,7 +2,7 @@
 
 [[AA228FinalProject]]
 deps = ["AEMS", "ARDESPOT", "Base64", "BasicPOMCP", "BeliefUpdaters", "Cairo", "Distributions", "FIB", "Graphics", "Gtk", "LinearAlgebra", "MCTS", "MCVI", "NearestNeighbors", "POMCPOW", "POMDPModelTools", "POMDPPolicies", "POMDPSimulators", "POMDPSolve", "POMDPs", "Parameters", "ParticleFilters", "QMDP", "Random", "Reel", "SARSOP", "StaticArrays", "Statistics"]
-git-tree-sha1 = "12f3a75abda2242d9a4f6cdafa9815a1158be104"
+git-tree-sha1 = "8868b9f1ff9dab70470c7c547b4dfcfdac4f7465"
 repo-rev = "master"
 repo-url = "https://github.com/sisl/AA228FinalProject"
 uuid = "fe2df5ea-4d44-4e5a-a895-9dbc87b19b37"
