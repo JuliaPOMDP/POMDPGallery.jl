@@ -1,0 +1,2 @@
+Rock sample problem from T. Smith, R. Simmons, "Heuristic Search Value Iteration for POMDPs," in Association for Uncertainty in Artificial Intelligence (UAI), 2004. 
+A Rover must pick up good rocks in a grid world. It knows the location of the rocks but does not know which one is good or bad. It is equipped with a noisy sensor to detect the status of a rock.

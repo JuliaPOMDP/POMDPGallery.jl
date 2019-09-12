@@ -44,6 +44,31 @@ write("out.gif", frames)
 ```
 
 
+## [DroneSurveillance](https://github.com/JuliaPOMDP/DroneSurveillance.jl)
+
+Implementation of a drone surveillance POMDP from M. Svoreňová, M. Chmelík, K. Leahy, H. F. Eniser, K. Chatterjee, I. Černá, C. Belta, " Temporal logic motion planning using POMDPs with parity objectives: case study paper", International Conference on Hybrid Systems: Computation and Control (HSCC), 2015.
+The UAV must go from one corner to the other while avoiding a ground agent. It can only detect the ground agent within its field of view (in blue).
+
+![DroneSurveillance](problems/DroneSurveillance/out.gif)
+
+```julia
+using DroneSurveillance
+using POMDPs
+# import a solver from POMDPs.jl e.g. SARSOP
+using SARSOP
+# for visualization
+using POMDPGifs
+import Cairo, Fontconfig
+
+pomdp = DroneSurveillancePOMDP() # initialize the problem 
+solver = SARSOPSolver(precision=0.1, timeout=10.0) # configure the solver
+policy = solve(solver, pomdp) # solve the problem
+
+sim = GifSimulator(filename="out.gif", max_steps=30)
+simulate(sim, pomdp, policy);
+```
+
+
 ## [EscapeRoomba](https://github.com/sisl/AA228FinalProject)
 
 The optional final project for AA228 at Stanford in Fall 2018. A Roomba equipped with a LIDAR or a bump sensor (shown) needs to try to find the safe exit (green) without accidentally falling down the stairs (red).
@@ -98,6 +123,34 @@ policy = solve(QMDPSolver(verbose=true), m)
 filter = SIRParticleFilter(m, 10000, rng=rng)
 
 @show makegif(m, policy, filter, filename="out.gif", rng=rng)
+```
+
+
+## [RockSample](https://github.com/JuliaPOMDP/RockSample.jl)
+
+Rock sample problem from T. Smith, R. Simmons, "Heuristic Search Value Iteration for POMDPs," in Association for Uncertainty in Artificial Intelligence (UAI), 2004. 
+A Rover must pick up good rocks in a grid world. It knows the location of the rocks but does not know which one is good or bad. It is equipped with a noisy sensor to detect the status of a rock.
+
+![RockSample](problems/RockSample/out.gif)
+
+```julia
+using POMDPs
+using RockSample 
+using SARSOP # load a  POMDP Solver
+using POMDPGifs # to make gifs
+import Cairo, Fontconfig
+
+pomdp = RockSamplePOMDP(rocks_positions=[(2,3), (4,4), (4,2)], 
+                        sensor_efficiency=10.0,
+                        discount_factor=0.95, 
+                        good_rock_reward = 20.0)
+
+solver = SARSOPSolver(precision=1e-3)
+
+policy = solve(solver, pomdp)
+
+sim = GifSimulator(filename="out.gif", max_steps=30)
+simulate(sim, pomdp, policy);
 ```
 
 

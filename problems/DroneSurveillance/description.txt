@@ -1,0 +1,2 @@
+Implementation of a drone surveillance POMDP from M. Svoreňová, M. Chmelík, K. Leahy, H. F. Eniser, K. Chatterjee, I. Černá, C. Belta, " Temporal logic motion planning using POMDPs with parity objectives: case study paper", International Conference on Hybrid Systems: Computation and Control (HSCC), 2015.
+The UAV must go from one corner to the other while avoiding a ground agent. It can only detect the ground agent within its field of view (in blue).
