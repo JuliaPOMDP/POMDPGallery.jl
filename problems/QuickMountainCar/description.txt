@@ -1,0 +1,1 @@
+An implementation of the classic Mountain Car RL problem using the QuickPOMDPs interface.
