@@ -39,38 +39,41 @@ function gen_readme(output=joinpath(dirname(@__FILE__()), "..", "README.md"))
     return true
 end
 
-function run_scripts(;allow_failure=String[], showerr=true)
+function run_scripts(;allow_failure=String[])
     pkgdir = joinpath(dirname(@__FILE__()), "..")
     problemsdir = joinpath(pkgdir, "problems")
     problems = readdir(problemsdir)
     procs = similar(problems, Base.Process)
 
-    @sync for (i, problem) in enumerate(problems)
-        @async begin
+    # @sync for (i, problem) in enumerate(problems)
+    for (i, problem) in enumerate(problems)
+        # @async begin
+        begin
+            println("Launching $problem...")
             problemdir = joinpath(problemsdir, problem)
             script = joinpath(problemdir, "script.jl")
             runs = """cd("$problemdir"); using Pkg; Pkg.activate("."); Pkg.instantiate(); include("$script")"""
-            outfile = joinpath(problemdir, "stdout.log")
-            errfile = joinpath(problemdir, "stderr.log")
-            println("Launching $problem.")
-            pipe = pipeline(`julia --project=$pkgdir -e $runs`, stdout=outfile, stderr=errfile)
-            procs[i] = run(pipe, wait=false)
-            wait(procs[i])
+            # outfile = joinpath(problemdir, "stdout.log")
+            # errfile = joinpath(problemdir, "stderr.log")
+            # pipe = pipeline(`julia --project=$pkgdir -e $runs`, stdout=outfile, stderr=errfile)
+            # procs[i] = run(pipe, wait=false)
+            # wait(procs[i])
+            procs[i] = run(`julia --project=$pkgdir -e $runs`)
             println("Finished $problem: $(success(procs[i]) ? "passed" : "FAILED")")
-            if !success(procs[i])
-                println("""
-                        ====================
-                        stderr for $problem:
-                        ====================
-                        """)
-                println(read(outfile, String))
-                println("""
-                        ====================
-                        stdout for $problem:
-                        ====================
-                        """)
-                println(read(errfile, String))
-            end
+            # if !success(procs[i])
+            #     println("""
+            #             ====================
+            #             stderr for $problem:
+            #             ====================
+            #             """)
+            #     println(read(outfile, String))
+            #     println("""
+            #             ====================
+            #             stdout for $problem:
+            #             ====================
+            #             """)
+            #     println(read(errfile, String))
+            # end
         end
     end
 
