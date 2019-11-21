@@ -43,7 +43,7 @@ function run_scripts(;allow_failure=String[])
     pkgdir = joinpath(dirname(@__FILE__()), "..")
     problemsdir = joinpath(pkgdir, "problems")
     problems = readdir(problemsdir)
-    results = similar(problems, Base.Process)
+    results = similar(problems, Any)
 
     # @sync for (i, problem) in enumerate(problems)
     for (i, problem) in enumerate(problems)
