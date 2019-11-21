@@ -43,7 +43,7 @@ function run_scripts(;allow_failure=String[])
     pkgdir = joinpath(dirname(@__FILE__()), "..")
     problemsdir = joinpath(pkgdir, "problems")
     problems = readdir(problemsdir)
-    procs = similar(problems, Base.Process)
+    results = similar(problems, Base.Process)
 
     # @sync for (i, problem) in enumerate(problems)
     for (i, problem) in enumerate(problems)
@@ -58,8 +58,13 @@ function run_scripts(;allow_failure=String[])
             # pipe = pipeline(`julia --project=$pkgdir -e $runs`, stdout=outfile, stderr=errfile)
             # procs[i] = run(pipe, wait=false)
             # wait(procs[i])
-            procs[i] = run(`julia --project=$pkgdir -e $runs`)
-            println("Finished $problem: $(success(procs[i]) ? "passed" : "FAILED")")
+            results[i] = try
+                run(`julia --project=$pkgdir -e $runs`)
+            catch ex
+                ex
+            end
+
+            println("Finished $problem: $(passed(results[i]) ? "passed" : "FAILED")")
             # if !success(procs[i])
             #     println("""
             #             ====================
@@ -86,7 +91,7 @@ function run_scripts(;allow_failure=String[])
             """)
     for i in 1:length(problems)
         print(problems[i]*": ")
-        if success(procs[i])
+        if passed(results[i])
             println("passed")
         else
             println("FAILED")
@@ -99,5 +104,8 @@ function run_scripts(;allow_failure=String[])
 
     return pass
 end
+
+passed(proc) = success(proc)
+passed(ex::ProcessFailedException) = false
 
 end # module
