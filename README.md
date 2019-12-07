@@ -207,7 +207,7 @@ simulate(sim, pomdp, policy);
 
 An implimentation of Van Der Pol Tag using POMDPs.jl and POMCPOW. 
 
-![VDPTag2](problems/VDPTag2/_vdprun.gif)
+![VDPTag2](problems/VDPTag/_vdprun.gif)
 
 ```julia
 using VDPTag2
