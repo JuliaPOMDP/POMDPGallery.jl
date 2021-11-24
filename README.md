@@ -154,7 +154,7 @@ mountaincar = QuickMDP(
         return (sp=(xp, vp), r=r)
     end,
     actions = [-1., 0., 1.],
-    initialstate = (-0.5, 0.0),
+    initialstate = Deterministic((-0.5, 0.0)),
     discount = 0.95,
     isterminal = s -> s[1] > 0.5,
 
@@ -203,11 +203,12 @@ simulate(sim, pomdp, policy);
 ```
 
 
-## [VDPTag2](https://github.com/zsunberg/VDPTag2.jl)
+## [VDPTag](https://github.com/zsunberg/VDPTag2.jl)
 
 An implimentation of Van Der Pol Tag using POMDPs.jl and POMCPOW. 
 
-![VDPTag2](problems/VDPTag/_vdprun.gif)
+
+![VDPTag](problems/VDPTag/out.gif)
 
 ```julia
 using VDPTag2
@@ -245,5 +246,6 @@ filename = string("_vdprun.gif")
 write(filename, frames)
 println(String(pwd()) * "/" * filename)
 ```
+
 
 

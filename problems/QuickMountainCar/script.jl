@@ -18,7 +18,7 @@ mountaincar = QuickMDP(
         return (sp=(xp, vp), r=r)
     end,
     actions = [-1., 0., 1.],
-    initialstate = (-0.5, 0.0),
+    initialstate = Deterministic((-0.5, 0.0)),
     discount = 0.95,
     isterminal = s -> s[1] > 0.5,
 
