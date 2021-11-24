@@ -4,6 +4,7 @@ using POMDPPolicies
 using Compose
 import Cairo
 using POMDPGifs
+import POMDPModelTools: Deterministic
 
 mountaincar = QuickMDP(
     function (s, a, rng)        
