@@ -52,7 +52,7 @@ function run_scripts(;allow_failure=String[])
             println("Launching $problem...")
             problemdir = joinpath(problemsdir, problem)
             script = joinpath(problemdir, "script.jl")
-            runs = """cd("$problemdir"); using Pkg; Pkg.activate("."); Pkg.instantiate(); include("$script")"""
+            runs = """cd("$problemdir"); using Pkg; Pkg.activate("."); Pkg.update(); Pkg.precompile(); Pkg.instantiate(); include("$script")"""
             # outfile = joinpath(problemdir, "stdout.log")
             # errfile = joinpath(problemdir, "stderr.log")
             # pipe = pipeline(`julia --project=$pkgdir -e $runs`, stdout=outfile, stderr=errfile)
