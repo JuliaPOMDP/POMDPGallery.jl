@@ -1,7 +1,7 @@
-name = "VDPTag"
-uuid = "eee7fc60-28e4-11ea-394c-f98382548851"
-authors = ["Chandler Kilpatrick <crskilpatrick807@gmail.com>"]
-version = "0.1.0"
+#name = "VDPTag"
+#uuid = "eee7fc60-28e4-11ea-394c-f98382548851"
+#authors = ["Chandler Kilpatrick <crskilpatrick807@gmail.com>"]
+#version = "0.1.0"
 
 [deps]
 POMDPModelTools = "08074719-1b2a-587c-a292-00f91cc44415"
