@@ -1,5 +1,5 @@
 [deps]
-AA228FinalProject = "fe2df5ea-4d44-4e5a-a895-9dbc87b19b37"
+RoombaPOMDPs = "fe2df5ea-4d44-4e5a-a895-9dbc87b19b37"
 ARDESPOT = "d96c9ae4-3372-47d5-8a88-316ae77be8cf"
 POMDPGifs = "7f35509c-0cb9-11e9-0708-2928828cdbb7"
 POMDPPolicies = "182e52fb-cfd0-5e46-8c26-fd0667c990f4"
