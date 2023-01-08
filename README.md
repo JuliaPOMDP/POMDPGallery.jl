@@ -206,7 +206,7 @@ simulate(sim, pomdp, policy);
 
 ## [VDPTag](https://github.com/zsunberg/VDPTag2.jl)
 
-An implimentation of Van Der Pol Tag using POMDPs.jl and POMCPOW. 
+An implimentation of Van Der Pol Tag using POMDPs.jl and POMCPOW.
 
 
 ![VDPTag](problems/VDPTag/out.gif)
