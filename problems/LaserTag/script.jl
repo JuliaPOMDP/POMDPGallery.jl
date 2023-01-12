@@ -4,8 +4,8 @@ using QMDP
 using Random
 using ParticleFilters
 using Reel
-
-
+using POMDPTools
+using POMDPs
 rng = MersenneTwister(7)
 
 m = gen_lasertag(rng=rng, robot_position_known=true)
