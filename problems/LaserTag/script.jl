@@ -29,7 +29,7 @@ frames = Frames(MIME("image/png"), fps=2)
 #     push!(frames, LaserTagVis(p=m, a=a, s=s, r=r,o=o, b=b))
 # end
 for (s,b,a,o,r) in eachstep(hist, "s,b,a,o,r")
-    push!(frames, LaserTagVis(p=m, a=a, s=s, r=r,o=o, b=b))
+    push!(frames, LaserTagVis(m, s=s, a=a, o=o, b=b, r=r))
 end
 
 write("out.gif", frames)
