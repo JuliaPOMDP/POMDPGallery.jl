@@ -4,7 +4,6 @@ using QMDP
 using Random
 using ParticleFilters
 using Reel
-using POMDPTools
 
 
 rng = MersenneTwister(7)
