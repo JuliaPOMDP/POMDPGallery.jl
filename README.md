@@ -134,6 +134,22 @@ end
 Random.seed!(2)
 # reset the policy
 p = ToEnd(0) # here, the argument sets the time-steps elapsed to 0
+c = @GtkCanvas()
+win = GtkWindow(c, "Roomba Environment", 600, 600)
+for (t, step) in enumerate(stepthrough(problem, p, belief_updater, max_steps=100))
+    @guarded draw(c) do widget 
+        # the following lines render the room, the particles, and the roomba
+        ctx = getgc(c)
+        set_source_rgb(ctx,1,1,1)
+        paint(ctx)
+        render(ctx, problem, step)  
+        # render some information that can help with debugging
+        # here, we render the time-step, the state, and the observation
+        move_to(ctx,300,400)
+    end
+    show(c)
+    sleep(0.1) # to slow down the simulation
+end
 ```
 
 
