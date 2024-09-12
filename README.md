@@ -1,7 +1,5 @@
 # POMDPGallery
 
-[![Build Status](https://travis-ci.org/JuliaPOMDP/POMDPGallery.jl.svg?branch=master)](https://travis-ci.org/JuliaPOMDP/POMDPGallery.jl)
-
 **THIS REPOSITORY IS NO LONGER MAINTAINED**
 
 It has been moved to the [Gallery in the POMDPs.jl documentation](https://juliapomdp.github.io/POMDPs.jl/stable/gallery/)
